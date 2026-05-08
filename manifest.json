@@ -1,0 +1,17 @@
+{
+  "name": "مركز شيخان وشريفة الفارسي",
+  "short_name": "مركز التحفيظ",
+  "start_url": "/Shaikhan/",
+  "display": "standalone",
+  "background_color": "#F7F6F3",
+  "theme_color": "#1D9E75",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "https://api.iconify.design/twemoji/green-book.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
