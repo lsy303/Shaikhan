@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>مركز شيخان وشريفة الفارسي</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+:root{
+  --green:#1D9E75;--green-dark:#0F6E56;--green-light:#E1F5EE;
+  --red:#E24B4A;--red-light:#FCEBEB;
+  --amber:#BA7517;--amber-light:#FEF3DC;
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --gray-bg:#F7F6F3;--gray-border:#E2E0DA;
+  --text:#1a1a1a;--text-muted:#6b6b6b;
+  --white:#fff;--radius:10px;--radius-lg:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Tajawal',sans-serif;background:var(--gray-bg);color:var(--text);min-height:100vh;}
+
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:50;}
+.topbar-title{display:flex;align-items:center;gap:10px;}
+.logo{width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+.topbar h1{font-size:15px;font-weight:700;line-height:1.3;}
+.topbar p{font-size:11px;color:var(--text-muted);}
+.topbar-actions{display:flex;gap:6px;flex-wrap:wrap;}
+
+.tabs{display:flex;gap:2px;padding:0 20px;background:var(--white);border-bottom:1px solid var(--gray-border);}
+.tab{font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;padding:10px 16px;border:none;background:none;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.tab.active{color:var(--green-dark);border-bottom-color:var(--green);}
+
+.container{max-width:1000px;margin:0 auto;padding:18px 14px;}
+.page{display:none;}.page.active{display:block;}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px;}
+.stat-card{background:var(--white);border:1px solid var(--gray-border);border-radius:var(--radius);padding:12px 14px;}
+.stat-label{font-size:11px;color:var(--text-muted);margin-bottom:3px;}
+.stat-value{font-size:22px;font-weight:700;}
+.stat-value.green{color:var(--green-dark);}
+.stat-value.red{color:var(--red);}
+.stat-value.amber{color:var(--amber);}
+
+.toolbar{background:var(--white);border:1px solid var(--gray-border);border-radius:var(--radius-lg);padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+.search-wrap{position:relative;flex:1;min-width:180px;}
+.search-wrap input{padding-right:34px;width:100%;}
+.search-icon{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);}
+
+.btn{font-family:'Tajawal',sans-serif;font-size:13px;font-weight:500;padding:7px 13px;border-radius:var(--radius);border:1px solid var(--gray-border);background:var(--white);color:var(--text);cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;transition:background .12s;}
+.btn:hover{background:var(--gray-bg);}
+.btn.primary{background:var(--green);border-color:var(--green-dark);color:#fff;}
+.btn.primary:hover{background:var(--green-dark);}
+.btn.wa{background:#25D366;border-color:#1aac55;color:#fff;}
+.btn.wa:hover{background:#1aac55;}
+.btn.amber{background:var(--amber);border-color:#96600f;color:#fff;}
+.btn.amber:hover{background:#96600f;}
+.btn.sm{font-size:12px;padding:4px 9px;}
+.btn.danger{color:var(--red);}
+.btn.danger:hover{background:var(--red-light);border-color:#f0b0b0;}
+.btn.confirm{color:var(--green-dark);}
+.btn.confirm:hover{background:var(--green-light);}
+
+input[type=text],input[type=number],select,textarea{font-family:'Tajawal',sans-serif;font-size:14px;padding:8px 11px;border:1px solid var(--gray-border);border-radius:var(--radius);background:var(--white);color:var(--text);outline:none;transition:border-color .15s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--green);}
+
+.student-card{background:var(--white);border:1px solid var(--gray-border);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden;}
+.student-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;gap:10px;flex-wrap:wrap;user-select:none;}
+.student-header:hover{background:#fafaf8;}
+.student-name{font-weight:600;font-size:15px;margin-bottom:2px;}
+.student-phone{font-size:12px;color:var(--text-muted);direction:ltr;text-align:right;}
+.student-note{font-size:12px;color:var(--amber);margin-top:2px;}
+.student-body{border-top:1px solid var(--gray-border);padding:12px 16px;background:#fdfcfa;display:none;}
+.student-body.open{display:block;}
+.halaqa-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--white);border:1px solid var(--gray-border);border-radius:var(--radius);margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+.halaqa-row:last-child{margin-bottom:0;}
+.halaqa-name-txt{font-size:13px;font-weight:500;}
+.halaqa-amount-txt{font-size:12px;color:var(--text-muted);}
+.student-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:99px;white-space:nowrap;}
+.badge.paid{background:var(--green-light);color:var(--green-dark);}
+.badge.unpaid{background:var(--red-light);color:#A32D2D;}
+.badge.halaqa{background:var(--blue-light);color:var(--blue);margin-right:3px;}
+.badge.amber{background:var(--amber-light);color:var(--amber);}
+
+.card{background:var(--white);border:1px solid var(--gray-border);border-radius:var(--radius-lg);overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:14px;}
+th{background:#fafaf8;font-weight:600;font-size:12px;color:var(--text-muted);padding:9px 14px;text-align:right;border-bottom:1px solid var(--gray-border);}
+td{padding:9px 14px;border-bottom:1px solid #f0eeea;vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fdfcfa;}
+
+.empty{text-align:center;padding:36px;color:var(--text-muted);font-size:14px;}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:var(--radius-lg);padding:22px;width:430px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.18);}
+.modal h2{font-size:16px;font-weight:600;margin-bottom:16px;}
+.form-group{margin-bottom:13px;}
+.form-group label{font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+
+.halaqa-check-list{display:flex;flex-direction:column;gap:6px;max-height:210px;overflow-y:auto;padding:2px 0;}
+.halaqa-check-item{display:flex;align-items:center;gap:8px;padding:8px 11px;border:1px solid var(--gray-border);border-radius:var(--radius);cursor:pointer;}
+.halaqa-check-item:hover{background:var(--gray-bg);}
+.halaqa-check-item input[type=checkbox]{width:auto;cursor:pointer;accent-color:var(--green);}
+.halaqa-check-label{font-size:13px;flex:1;}
+.halaqa-check-price{font-size:12px;color:var(--text-muted);}
+
+textarea.copybox{font-family:monospace;font-size:13px;padding:10px;border:1px solid var(--gray-border);border-radius:var(--radius);background:var(--gray-bg);color:var(--text);resize:none;line-height:1.9;width:100%;}
+
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.section-title{font-size:15px;font-weight:600;}
+.export-note{font-size:11px;color:var(--text-muted);margin-top:10px;text-align:center;}
+
+@media(max-width:600px){
+  .container{padding:10px 8px;}
+  .topbar{padding:10px 12px;}
+  .topbar h1{font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">
+    <div class="logo">📖</div>
+    <div>
+      <h1>مركز شيخان وشريفة الفارسي</h1>
+      <p>نظام متابعة الطالبات والرسوم · <span id="semester-label" style="color:var(--green-dark);font-weight:600;"></span></p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn" style="color:var(--blue);border-color:var(--blue);" onclick="openRenewalModal()">🔄 تجديد الفصل</button>
+    <button class="btn" onclick="exportData()">💾 حفظ البيانات</button>
+    <label class="btn amber" style="cursor:pointer;">
+      📂 استيراد بيانات
+      <input type="file" accept=".json" onchange="importData(event)" style="display:none"/>
+    </label>
+    <button class="btn wa" onclick="openBulkModal()">📲 تذكير الكل</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showPage('students',this)">👩‍🎓 الطالبات</button>
+  <button class="tab" onclick="showPage('halaqat',this)">📚 الحلقات</button>
+  <button class="tab" onclick="showPage('dourat',this)">🌟 الدورات والأنشطة</button>
+  <button class="tab" onclick="showPage('archive',this)">📦 الأرشيف</button>
+</div>
+
+<!-- STUDENTS PAGE -->
+<div class="page active" id="page-students">
+  <div class="container">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search" placeholder="بحث بالاسم أو رقم الهاتف..." oninput="renderStudents()"/>
+      </div>
+      <select id="filter-halaqa" onchange="renderStudents()" style="width:auto;min-width:130px;"></select>
+      <select id="filter-paid" onchange="renderStudents()" style="width:auto;min-width:140px;">
+        <option value="all">كل الحالات</option>
+        <option value="unpaid">فيها دفعات متأخرة</option>
+        <option value="paid">مكتملة الدفع</option>
+      </select>
+      <button class="btn primary" onclick="openStudentModal()">+ إضافة طالبة</button>
+    </div>
+    <div id="students-list"></div>
+    <p class="export-note">البيانات محفوظة تلقائياً على هذا الجهاز — استخدمي زر "حفظ البيانات" للنقل بين الأجهزة ✓</p>
+  </div>
+</div>
+
+<!-- HALAQAT PAGE -->
+<div class="page" id="page-halaqat">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">الحلقات المسجلة</div>
+      <button class="btn primary" onclick="openHalaqaModal()">+ إضافة حلقة</button>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>اسم الحلقة</th><th>المعلمة</th><th>المبلغ الشهري</th><th>عدد الطالبات</th><th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="halaqat-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- DOURAT PAGE -->
+<div class="page" id="page-dourat">
+  <div class="container">
+    <div class="stats" id="dourat-stats"></div>
+    <div class="section-header">
+      <div class="section-title">الدورات والأنشطة</div>
+      <button class="btn primary" onclick="openDauratModal()">+ إضافة دورة / نشاط</button>
+    </div>
+
+    <!-- Dourat list -->
+    <div id="dourat-list"></div>
+    <p class="export-note">البيانات محفوظة تلقائياً ✓</p>
+  </div>
+</div>
+
+<!-- ARCHIVE PAGE -->
+<div class="page" id="page-archive">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:6px;">
+      <div class="section-title">📦 الحلقات المؤرشفة</div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <table>
+        <thead>
+          <tr><th>#</th><th>اسم الحلقة</th><th>المبلغ</th><th>عدد الطالبات</th><th>إجراءات</th></tr>
+        </thead>
+        <tbody id="archive-tbody"></tbody>
+      </table>
+    </div>
+    <div class="section-header" style="margin-bottom:6px;">
+      <div class="section-title">📦 الدورات والأنشطة المؤرشفة</div>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>#</th><th>اسم الدورة</th><th>المبلغ</th><th>المسجلات</th><th>إجراءات</th></tr>
+        </thead>
+        <tbody id="archive-dourat-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="student-overlay" onclick="overlayClick('student-overlay',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 id="student-modal-title">إضافة طالبة جديدة</h2>
+    <div class="form-group">
+      <label>اسم الطالبة</label>
+      <input type="text" id="f-name" placeholder="الاسم الكامل"/>
+    </div>
+    <div class="form-group">
+      <label>رقم الهاتف</label>
+      <input type="text" id="f-phone" placeholder="05xxxxxxxx" dir="ltr"/>
+    </div>
+    <div class="form-group">
+      <label>ملاحظة (اختياري)</label>
+      <input type="text" id="f-note" placeholder="مثال: مسجلة في حلقتين"/>
+    </div>
+    <div class="form-group">
+      <label>الحلقات المسجلة فيها</label>
+      <div class="halaqa-check-list" id="halaqa-checklist"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('student-overlay')">إلغاء</button>
+      <button class="btn primary" onclick="saveStudent()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- HALAQA MODAL -->
+<div class="overlay" id="halaqa-overlay" onclick="overlayClick('halaqa-overlay',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 id="halaqa-modal-title">إضافة حلقة جديدة</h2>
+    <div class="form-group">
+      <label>اسم الحلقة</label>
+      <input type="text" id="h-name" placeholder="مثال: حلقة الفجر"/>
+    </div>
+    <div class="form-group">
+      <label>اسم المعلمة</label>
+      <input type="text" id="h-teacher" placeholder="مثال: أم عبدالله"/>
+    </div>
+    <div class="form-group">
+      <label>المبلغ الشهري (دينار)</label>
+      <input type="number" id="h-amount" placeholder="10" min="0"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('halaqa-overlay')">إلغاء</button>
+      <button class="btn primary" onclick="saveHalaqa()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- BULK MODAL -->
+<div class="overlay" id="bulk-overlay" onclick="overlayClick('bulk-overlay',event)">
+  <div class="modal" style="width:460px;" onclick="event.stopPropagation()">
+    <h2>📲 تذكير جماعي — غير المدفوعات</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">اضغطي على زر واتساب لكل طالبة لإرسال رسالة التذكير.</p>
+    <div id="bulk-list" style="display:flex;flex-direction:column;gap:7px;max-height:420px;overflow-y:auto;"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('bulk-overlay')">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT CONFIRM MODAL -->
+<div class="overlay" id="import-overlay">
+  <div class="modal" style="width:360px;" onclick="event.stopPropagation()">
+    <h2>📂 استيراد بيانات</h2>
+    <p style="font-size:14px;line-height:1.8;margin-bottom:14px;">سيتم استبدال البيانات الحالية بالبيانات المستوردة.<br/>هل أنت متأكدة؟</p>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('import-overlay')">إلغاء</button>
+      <button class="btn danger" id="import-confirm-btn">استبدال البيانات</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOURA MODAL (add/edit doura) -->
+<div class="overlay" id="doura-overlay" onclick="overlayClick('doura-overlay',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 id="doura-modal-title">إضافة دورة / نشاط جديد</h2>
+    <div class="form-group">
+      <label>اسم الدورة أو النشاط</label>
+      <input type="text" id="d-name" placeholder="مثال: دورة المهرة"/>
+    </div>
+    <div class="form-group">
+      <label>تاريخ البدء (اختياري)</label>
+      <input type="text" id="d-date" placeholder="مثال: يوليو 2025"/>
+    </div>
+    <div class="form-group">
+      <label>ملاحظة (اختياري)</label>
+      <input type="text" id="d-note" placeholder="أي تفاصيل إضافية..."/>
+    </div>
+    <div class="form-group">
+      <label>الأقسام والرسوم</label>
+      <div id="d-sections-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;"></div>
+      <button type="button" class="btn sm" onclick="addSectionRow()">+ إضافة قسم</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('doura-overlay')">إلغاء</button>
+      <button class="btn primary" onclick="saveDoura()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOURA STUDENT MODAL (add student to doura) -->
+<div class="overlay" id="doura-student-overlay" onclick="overlayClick('doura-student-overlay',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 id="doura-student-title">إضافة مسجلة</h2>
+    <div class="form-group">
+      <label>اسم الطالبة</label>
+      <input type="text" id="ds-name" placeholder="الاسم الكامل"/>
+    </div>
+    <div class="form-group">
+      <label>رقم الهاتف</label>
+      <input type="text" id="ds-phone" placeholder="05xxxxxxxx" dir="ltr"/>
+    </div>
+    <div class="form-group">
+      <label>القسم المسجلة فيه</label>
+      <select id="ds-section"></select>
+    </div>
+    <div class="form-group">
+      <label>ملاحظة (اختياري)</label>
+      <input type="text" id="ds-note" placeholder=""/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('doura-student-overlay')">إلغاء</button>
+      <button class="btn primary" onclick="saveDouraStudent()">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- RENEWAL MODAL -->
+<div class="overlay" id="renewal-overlay" onclick="overlayClick('renewal-overlay',event)">
+  <div class="modal" style="width:400px;" onclick="event.stopPropagation()">
+    <h2>🔄 تجديد الفصل</h2>
+    <div style="background:var(--gray-bg);border-radius:var(--radius);padding:12px;margin-bottom:16px;font-size:13px;line-height:1.8;">
+      <div>الفصل الحالي: <strong id="renewal-current"></strong></div>
+      <div>الفصل التالي: <strong id="renewal-next" style="color:var(--green-dark);"></strong></div>
+    </div>
+    <div id="renewal-summary" style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.8;"></div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+      سيتم تحويل كل الطالبات <strong>النشطات</strong> إلى "لم تدفع".<br/>
+      الطالبات المتوقفات لن تتأثر.
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeOverlay('renewal-overlay')">إلغاء</button>
+      <button class="btn primary" onclick="confirmRenewal()">✅ تأكيد التجديد</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let halaqat = JSON.parse(localStorage.getItem('hifz_halaqat') || '[]');
+let archivedHalaqat = JSON.parse(localStorage.getItem('hifz_archive') || '[]');
+let students = JSON.parse(localStorage.getItem('hifz_students_v3') || '[]');
+let dourat = JSON.parse(localStorage.getItem('hifz_dourat') || '[]');
+let semester = localStorage.getItem('hifz_semester') || 'الفصل الأول';
+let editStudentId = null;
+let editHalaqaId = null;
+let editDouraId = null;
+let editDouraStudentId = null;
+let activeDouraId = null;
+let pendingImport = null;
+
+const SEMESTERS = ['الفصل الأول', 'الفصل الثاني', 'الفصل الصيفي'];
+
+function saveData() {
+  localStorage.setItem('hifz_halaqat', JSON.stringify(halaqat));
+  localStorage.setItem('hifz_archive', JSON.stringify(archivedHalaqat));
+  localStorage.setItem('hifz_students_v3', JSON.stringify(students));
+  localStorage.setItem('hifz_dourat', JSON.stringify(dourat));
+  localStorage.setItem('hifz_semester', semester);
+}
+
+function nextSemester(current) {
+  const idx = SEMESTERS.indexOf(current);
+  return SEMESTERS[(idx + 1) % SEMESTERS.length];
+}
+
+function updateSemesterLabel() {
+  const el = document.getElementById('semester-label');
+  if (el) el.textContent = semester;
+}
+
+function openRenewalModal() {
+  const next = nextSemester(semester);
+  document.getElementById('renewal-current').textContent = semester;
+  document.getElementById('renewal-next').textContent = next;
+  const active = students.filter(s => !s.paused);
+  const paused = students.filter(s => s.paused);
+  document.getElementById('renewal-summary').innerHTML =
+    `👩‍🎓 طالبات نشطات سيتم تصفير دفعهن: <strong>${active.length}</strong><br/>` +
+    `⏸ طالبات متوقفات لن تتأثر: <strong>${paused.length}</strong>`;
+  openOverlay('renewal-overlay');
+}
+
+function confirmRenewal() {
+  semester = nextSemester(semester);
+  students.forEach(s => {
+    if (!s.paused) {
+      (s.halaqat || []).forEach(sh => sh.paid = false);
+    }
+  });
+  saveData();
+  updateSemesterLabel();
+  closeOverlay('renewal-overlay');
+  renderStudents();
+  alert(`✅ تم التجديد للـ ${semester} بنجاح!`);
+}
+
+function uid() {
+  return Math.random().toString(36).substr(2,9) + Date.now().toString(36);
+}
+
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function formatPhone(phone) {
+  return String(phone||'').replace(/\D/g,'').replace(/^0/,'966');
+}
+
+// TABS
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'halaqat') renderHalaqat();
+  if (name === 'students') renderStudents();
+  if (name === 'archive') renderArchive();
+  if (name === 'dourat') renderDourat();
+}
+
+// ===================== DOURAT =====================
+function renderDauratStats() {
+  const active = dourat.filter(d=>!d.archived);
+  const totalStudents = active.reduce((a,d)=>a+(d.students||[]).length,0);
+  const totalPaid = active.reduce((a,d)=>{
+    const sections = d.sections||[{id:'default',name:'عام',amount:d.amount||0}];
+    return a+(d.students||[]).filter(s=>s.paid).reduce((b,s)=>{
+      const sec=sections.find(sec=>sec.id===s.sectionId)||sections[0];
+      return b+(sec?sec.amount:0);
+    },0);
+  },0);
+  const totalExpected = active.reduce((a,d)=>{
+    const sections = d.sections||[{id:'default',name:'عام',amount:d.amount||0}];
+    return a+(d.students||[]).reduce((b,s)=>{
+      const sec=sections.find(sec=>sec.id===s.sectionId)||sections[0];
+      return b+(sec?sec.amount:0);
+    },0);
+  },0);
+  const unpaid = active.reduce((a,d)=>a+(d.students||[]).filter(s=>!s.paid).length,0);
+  document.getElementById('dourat-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">الدورات النشطة</div><div class="stat-value">${active.length}</div></div>
+    <div class="stat-card"><div class="stat-label">إجمالي المسجلات</div><div class="stat-value">${totalStudents}</div></div>
+    <div class="stat-card"><div class="stat-label">المبلغ المحصّل</div><div class="stat-value green">${totalPaid} د</div></div>
+    <div class="stat-card"><div class="stat-label">لم يدفعن</div><div class="stat-value red">${unpaid}</div></div>
+  `;
+}
+
+function renderDourat() {
+  renderDauratStats();
+  const active = dourat.filter(d=>!d.archived);
+  const container = document.getElementById('dourat-list');
+  if (!active.length) {
+    container.innerHTML = '<div class="empty">لا توجد دورات نشطة — أضيفي أول دورة 🌟</div>';
+    return;
+  }
+  container.innerHTML = active.map(d => {
+    const didx = dourat.indexOf(d);
+    const sections = d.sections||[{id:'default',name:'عام',amount:d.amount||0}];
+    const studs = (d.students||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'ar'));
+    const totalExpected = studs.reduce((a,s)=>{const sec=sections.find(sec=>sec.id===s.sectionId)||sections[0];return a+(sec?sec.amount:0);},0);
+    const totalPaid = studs.filter(s=>s.paid).reduce((a,s)=>{const sec=sections.find(sec=>sec.id===s.sectionId)||sections[0];return a+(sec?sec.amount:0);},0);
+    const paidCount = studs.filter(s=>s.paid).length;
+    const unpaidCount = studs.length - paidCount;
+
+    const studRows = studs.map(s => {
+      const realIdx = (d.students||[]).findIndex(st=>st.id===s.id);
+      const sec = sections.find(sec=>sec.id===s.sectionId)||sections[0];
+      return `<div class="halaqa-row">
+        <div>
+          <div class="halaqa-name-txt">${esc(s.name)}</div>
+          <div class="halaqa-amount-txt">${esc(sec?sec.name:'')} · ${sec?sec.amount:0} دينار${s.note?' · '+esc(s.note):''}</div>
+          <div class="halaqa-amount-txt" dir="ltr">${esc(s.phone||'')}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          ${s.paid
+            ? `<span class="badge paid">✓ دفعت</span><button class="btn sm danger" onclick="toggleDouraStudentPaid(${didx},${realIdx})">إلغاء</button>`
+            : `<span class="badge unpaid">✗ لم تدفع</span>
+               <button class="btn sm confirm" onclick="toggleDouraStudentPaid(${didx},${realIdx})">✓ تأكيد دفع</button>
+               <a href="https://wa.me/${formatPhone(s.phone)}?text=${waMsg(s.name,d.name)}" target="_blank" class="btn wa sm" style="text-decoration:none;">📲</a>`}
+          <button class="btn sm danger" onclick="deleteDouraStudent(${didx},${realIdx})">🗑</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    const sectionSummary = sections.map(sec=>{const c=(d.students||[]).filter(s=>s.sectionId===sec.id).length;return `<span class="badge halaqa">${esc(sec.name)}: ${c} (${sec.amount}د)</span>`;}).join(' ');
+
+    return `<div class="student-card" style="border-right:4px solid var(--amber);">
+      <div class="student-header" onclick="toggleCard('dc-${didx}')">
+        <div style="flex:1;">
+          <div class="student-name">🌟 ${esc(d.name)}</div>
+          <div class="student-phone">${d.date?d.date+' · ':''} ${studs.length} مسجلة · دفعت: ${paidCount} · لم تدفع: ${unpaidCount}</div>
+          <div style="margin-top:5px;">${sectionSummary}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <span class="badge" style="background:var(--amber-light);color:var(--amber);">${totalPaid}/${totalExpected} د</span>
+          <span style="color:var(--text-muted);font-size:18px;">⌄</span>
+        </div>
+      </div>
+      <div class="student-body" id="dc-${didx}">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--gray-border);">
+          <button class="btn sm" onclick="openDauratModal(${didx})">✏ تعديل الدورة</button>
+          <button class="btn sm" style="color:var(--amber);" onclick="archiveDoura(${didx})">📦 أرشفة</button>
+          <button class="btn sm danger" onclick="deleteDoura(${didx})">🗑 حذف الدورة</button>
+        </div>
+        ${studRows||'<div style="font-size:13px;color:var(--text-muted);margin-bottom:10px;">لا توجد مسجلات بعد</div>'}
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-border);">
+          <button class="btn sm primary" onclick="openDouraStudentModal(${didx})">+ إضافة مسجلة</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addSectionRow(name='',amount='') {
+  const list = document.getElementById('d-sections-list');
+  const row = document.createElement('div');
+  row.style.cssText='display:flex;gap:6px;align-items:center;';
+  row.innerHTML=`<input type="text" placeholder="اسم القسم" value="${esc(name)}" style="flex:1;" class="sec-name"/><input type="number" placeholder="المبلغ" value="${amount}" style="width:90px;" min="0" class="sec-amount"/><button type="button" class="btn sm danger" onclick="this.parentElement.remove()">✕</button>`;
+  list.appendChild(row);
+}
+
+function openDauratModal(idx=null) {
+  editDouraId = idx;
+  document.getElementById('doura-modal-title').textContent = idx!==null ? 'تعديل الدورة' : 'إضافة دورة / نشاط جديد';
+  const d = idx!==null ? dourat[idx] : null;
+  document.getElementById('d-name').value = d ? d.name : '';
+  document.getElementById('d-date').value = d ? (d.date||'') : '';
+  document.getElementById('d-note').value = d ? (d.note||'') : '';
+  const list = document.getElementById('d-sections-list');
+  list.innerHTML='';
+  const sections = d ? (d.sections||[{name:'عام',amount:d.amount||0}]) : [];
+  if (sections.length) sections.forEach(s=>addSectionRow(s.name,s.amount));
+  else addSectionRow();
+  openOverlay('doura-overlay');
+  document.getElementById('d-name').focus();
+}
+
+function saveDoura() {
+  const name = document.getElementById('d-name').value.trim();
+  const date = document.getElementById('d-date').value.trim();
+  const note = document.getElementById('d-note').value.trim();
+  if (!name) { alert('يرجى إدخال اسم الدورة'); return; }
+  const rows = document.querySelectorAll('#d-sections-list > div');
+  const sections = [...rows].map((r,i)=>({
+    id:(editDouraId!==null&&dourat[editDouraId].sections&&dourat[editDouraId].sections[i])?dourat[editDouraId].sections[i].id:uid(),
+    name:r.querySelector('.sec-name').value.trim()||'قسم '+(i+1),
+    amount:parseFloat(r.querySelector('.sec-amount').value)||0
+  }));
+  if (!sections.length) { alert('يرجى إضافة قسم واحد على الأقل'); return; }
+  if (editDouraId!==null) {
+    dourat[editDouraId]={...dourat[editDouraId],name,date,note,sections};
+  } else {
+    dourat.push({id:uid(),name,date,note,sections,archived:false,students:[]});
+  }
+  saveData(); closeOverlay('doura-overlay'); renderDourat();
+}
+
+function deleteDoura(idx) {
+  if (!confirm('هل أنت متأكدة من حذف هذه الدورة وكل بياناتها؟')) return;
+  dourat.splice(idx,1); saveData(); renderDourat();
+}
+
+function archiveDoura(idx) {
+  if (!confirm('أرشفة هذه الدورة؟ ستختفي من القائمة الرئيسية لكن بياناتها محفوظة.')) return;
+  dourat[idx].archived=true; saveData(); renderDourat();
+}
+
+function openDouraStudentModal(douraIdx, realStuIdx=null) {
+  activeDouraId = douraIdx;
+  editDouraStudentId = realStuIdx;
+  document.getElementById('doura-student-title').textContent = realStuIdx!==null ? 'تعديل بيانات المسجلة' : 'إضافة مسجلة جديدة';
+  const s = realStuIdx!==null ? dourat[douraIdx].students[realStuIdx] : null;
+  document.getElementById('ds-name').value = s ? s.name : '';
+  document.getElementById('ds-phone').value = s ? (s.phone||'') : '';
+  document.getElementById('ds-note').value = s ? (s.note||'') : '';
+  const d = dourat[douraIdx];
+  const sections = d.sections||[{id:'default',name:'عام',amount:d.amount||0}];
+  const sel = document.getElementById('ds-section');
+  sel.innerHTML = sections.map(sec=>`<option value="${sec.id}" ${s&&s.sectionId===sec.id?'selected':''}>${esc(sec.name)} — ${sec.amount} دينار</option>`).join('');
+  openOverlay('doura-student-overlay');
+  document.getElementById('ds-name').focus();
+}
+
+function saveDouraStudent() {
+  const name = document.getElementById('ds-name').value.trim();
+  const phone = document.getElementById('ds-phone').value.trim();
+  const note = document.getElementById('ds-note').value.trim();
+  const sectionId = document.getElementById('ds-section').value;
+  if (!name) { alert('يرجى إدخال الاسم'); return; }
+  const d = dourat[activeDouraId];
+  if (!d.students) d.students=[];
+  if (editDouraStudentId!==null) {
+    d.students[editDouraStudentId]={...d.students[editDouraStudentId],name,phone,note,sectionId};
+  } else {
+    d.students.push({id:uid(),name,phone,note,sectionId,paid:false});
+  }
+  saveData(); closeOverlay('doura-student-overlay'); renderDourat();
+}
+
+function toggleDouraStudentPaid(douraIdx, stuIdx) {
+  dourat[douraIdx].students[stuIdx].paid=!dourat[douraIdx].students[stuIdx].paid;
+  saveData(); renderDourat();
+}
+
+function deleteDouraStudent(douraIdx, stuIdx) {
+  if (!confirm('حذف هذه المسجلة؟')) return;
+  dourat[douraIdx].students.splice(stuIdx,1); saveData(); renderDourat();
+}
+
+function archiveHalaqa(idx) {
+  const h = halaqat[idx];
+  if (!confirm(`هل تريدين أرشفة حلقة "${h.name}"؟\nستختفي من القائمة الرئيسية لكن بياناتها محفوظة.`)) return;
+  archivedHalaqat.push({...h, archivedAt: new Date().toISOString()});
+  halaqat.splice(idx, 1);
+  saveData(); renderHalaqat();
+}
+
+function restoreHalaqa(idx) {
+  const h = archivedHalaqat[idx];
+  delete h.archivedAt;
+  halaqat.push(h);
+  archivedHalaqat.splice(idx, 1);
+  saveData(); renderArchive();
+  alert(`✅ تم استعادة حلقة "${h.name}" بنجاح!`);
+}
+
+function deleteArchivedHalaqa(idx) {
+  const h = archivedHalaqat[idx];
+  const count = students.filter(s=>(s.halaqat||[]).some(sh=>sh.hid===h.id)).length;
+  const msg = count > 0
+    ? `تحذير: ${count} طالبة مسجلة في هذه الحلقة وستُحذف منها أيضاً.\nهل أنت متأكدة من الحذف النهائي؟`
+    : 'هل أنت متأكدة من الحذف النهائي؟ لا يمكن التراجع.';
+  if (!confirm(msg)) return;
+  // Remove halaqa from all students
+  students.forEach(s => {
+    if (s.halaqat) s.halaqat = s.halaqat.filter(sh => sh.hid !== h.id);
+  });
+  archivedHalaqat.splice(idx, 1);
+  saveData(); renderArchive();
+}
+
+function renderArchive() {
+  // Halaqat
+  const tbody = document.getElementById('archive-tbody');
+  if (!archivedHalaqat.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty">لا توجد حلقات مؤرشفة</div></td></tr>';
+  } else {
+    tbody.innerHTML = archivedHalaqat.map((h,i) => {
+      const count = students.filter(s=>(s.halaqat||[]).some(sh=>sh.hid===h.id)).length;
+      const date = h.archivedAt ? new Date(h.archivedAt).toLocaleDateString('ar-BH') : '';
+      return `<tr style="background:#fafaf8;">
+        <td style="color:var(--text-muted);font-size:12px;">${i+1}</td>
+        <td style="font-weight:600;color:var(--text-muted);">📦 ${esc(h.name)}<br/><span style="font-size:11px;font-weight:400;">أُرشف: ${date}</span></td>
+        <td style="color:var(--text-muted);">${h.amount} دينار</td>
+        <td style="color:var(--text-muted);">${count} طالبة</td>
+        <td><div style="display:flex;gap:6px;">
+          <button class="btn sm confirm" onclick="restoreHalaqa(${i})">↩ استعادة</button>
+          <button class="btn sm danger" onclick="deleteArchivedHalaqa(${i})">🗑 حذف نهائي</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Dourat
+  const archivedDourat = dourat.filter(d=>d.archived);
+  const dtbody = document.getElementById('archive-dourat-tbody');
+  if (!archivedDourat.length) {
+    dtbody.innerHTML = '<tr><td colspan="5"><div class="empty">لا توجد دورات مؤرشفة</div></td></tr>';
+  } else {
+    dtbody.innerHTML = archivedDourat.map((d,i) => {
+      const realIdx = dourat.indexOf(d);
+      const count = (d.students||[]).length;
+      const paidCount = (d.students||[]).filter(s=>s.paid).length;
+      return `<tr style="background:#fafaf8;">
+        <td style="color:var(--text-muted);font-size:12px;">${i+1}</td>
+        <td style="font-weight:600;color:var(--text-muted);">📦 ${esc(d.name)}${d.date?'<br/><span style="font-size:11px;font-weight:400;">'+esc(d.date)+'</span>':''}</td>
+        <td style="color:var(--text-muted);">${d.amount} دينار</td>
+        <td style="color:var(--text-muted);">${count} مسجلة · دفعت ${paidCount}</td>
+        <td><div style="display:flex;gap:6px;">
+          <button class="btn sm confirm" onclick="restoreDoura(${realIdx})">↩ استعادة</button>
+          <button class="btn sm danger" onclick="deleteArchivedDoura(${realIdx})">🗑 حذف نهائي</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+function restoreDoura(idx) {
+  dourat[idx].archived = false;
+  saveData(); renderArchive();
+  alert('✅ تم استعادة الدورة بنجاح!');
+}
+
+function deleteArchivedDoura(idx) {
+  if (!confirm('هل أنت متأكدة من الحذف النهائي للدورة وكل بياناتها؟')) return;
+  dourat.splice(idx,1); saveData(); renderArchive();
+}
+
+// OVERLAYS
+function overlayClick(id, e) {
+  if (e.target === document.getElementById(id)) closeOverlay(id);
+}
+function closeOverlay(id) { document.getElementById(id).classList.remove('open'); }
+function openOverlay(id) { document.getElementById(id).classList.add('open'); }
+
+// STATS
+function renderStats() {
+  const active = students.filter(s=>!s.paused);
+  const total = students.length;
+  let totalExpected = 0, totalPaid = 0, unpaidCount = 0;
+  active.forEach(s => {
+    let hasUnpaid = false;
+    (s.halaqat||[]).forEach(sh => {
+      const h = halaqat.find(h => h.id === sh.hid);
+      if (!h) return;
+      totalExpected += h.amount;
+      if (sh.paid) totalPaid += h.amount;
+      else hasUnpaid = true;
+    });
+    if (hasUnpaid) unpaidCount++;
+  });
+  const paused = students.filter(s=>s.paused).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="stat-label">إجمالي الطالبات</div><div class="stat-value">${total}${paused?'<span style="font-size:13px;color:var(--text-muted);"> (⏸${paused})</span>':''}</div></div>
+    <div class="stat-card"><div class="stat-label">المبلغ المحصّل</div><div class="stat-value green">${totalPaid} د</div></div>
+    <div class="stat-card"><div class="stat-label">المبلغ المتبقي</div><div class="stat-value red">${totalExpected - totalPaid} د</div></div>
+    <div class="stat-card"><div class="stat-label">طالبات متأخرة</div><div class="stat-value amber">${unpaidCount}</div></div>
+  `;
+}
+
+// HALAQA FILTER
+function updateHalaqaFilter() {
+  const sel = document.getElementById('filter-halaqa');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="all">كل الحلقات</option>' +
+    halaqat.map(h => `<option value="${h.id}"${cur===h.id?' selected':''}>${esc(h.name)}</option>`).join('');
+}
+
+// STUDENTS
+function renderStudents() {
+  renderStats();
+  updateHalaqaFilter();
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const fh = document.getElementById('filter-halaqa').value;
+  const fp = document.getElementById('filter-paid').value;
+
+  const list = students.map((s,i) => ({...s,_i:i})).filter(s => {
+    const mq = !q || s.name.toLowerCase().includes(q) || (s.phone||'').includes(q);
+    const mh = fh==='all' || (s.halaqat||[]).some(sh => sh.hid===fh);
+    const hasUnpaid = (s.halaqat||[]).some(sh => !sh.paid);
+    const mp = fp==='all' || (fp==='unpaid' ? hasUnpaid : !hasUnpaid);
+    return mq && mh && mp;
+  }).sort((a,b) => a.name.localeCompare(b.name, 'ar'));
+
+  const container = document.getElementById('students-list');
+  if (!list.length) { container.innerHTML = '<div class="empty">🔍 لا توجد نتائج</div>'; return; }
+
+  container.innerHTML = list.map(s => {
+    const sHalaqat = (s.halaqat||[]).map(sh => {
+      const h = halaqat.find(h => h.id===sh.hid);
+      return h ? {...sh, name:h.name, amount:h.amount} : null;
+    }).filter(Boolean);
+
+    const hasUnpaid = sHalaqat.some(sh => !sh.paid);
+    const totalOwed = sHalaqat.reduce((a,sh) => a+sh.amount, 0);
+    const totalPaidAmt = sHalaqat.filter(sh=>sh.paid).reduce((a,sh) => a+sh.amount, 0);
+    const halaqaBadges = sHalaqat.map(sh => `<span class="badge halaqa">${esc(sh.name)}</span>`).join('');
+
+    const statusBadge = s.paused
+      ? `<span class="badge" style="background:#f0eeea;color:var(--text-muted);">⏸ متوقفة</span>`
+      : !sHalaqat.length
+        ? `<span class="badge amber">بدون حلقة</span>`
+        : hasUnpaid
+          ? `<span class="badge unpaid">متأخرة ${totalOwed-totalPaidAmt} د</span>`
+          : `<span class="badge paid">✓ مكتملة</span>`;
+
+    const halaqaRows = sHalaqat.map(sh => `
+      <div class="halaqa-row" style="${s.paused?'opacity:0.5;pointer-events:none;':''}">
+        <div>
+          <div class="halaqa-name-txt">${esc(sh.name)}</div>
+          <div class="halaqa-amount-txt">${sh.amount} دينار</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          ${sh.paid
+            ? `<span class="badge paid">✓ دفعت</span>
+               <button class="btn sm danger" onclick="toggleHalaqaPaid(${s._i},'${sh.hid}')">إلغاء</button>`
+            : `<span class="badge unpaid">✗ لم تدفع</span>
+               <button class="btn sm confirm" onclick="toggleHalaqaPaid(${s._i},'${sh.hid}')">✓ تأكيد دفع</button>
+               <a href="https://wa.me/${formatPhone(s.phone)}?text=${waMsg(s.name,sh.name)}" target="_blank" class="btn wa sm" style="text-decoration:none;">📲</a>`
+          }
+        </div>
+      </div>`).join('');
+
+    const noteHtml = s.note ? `<div class="student-note">📝 ${esc(s.note)}</div>` : '';
+    const pauseBtn = s.paused
+      ? `<button class="btn sm confirm" onclick="togglePaused(${s._i})">▶ تفعيل</button>`
+      : `<button class="btn sm" style="color:var(--text-muted);" onclick="togglePaused(${s._i})">⏸ إيقاف مؤقت</button>`;
+
+    return `<div class="student-card" style="${s.paused?'opacity:0.75;':''}">
+      <div class="student-header" onclick="toggleCard('sc-${s._i}')">
+        <div style="flex:1;min-width:0;">
+          <div class="student-name">${esc(s.name)}</div>
+          <div class="student-phone">${esc(s.phone||'')}</div>
+          ${noteHtml}
+          <div style="margin-top:5px;">${halaqaBadges}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          ${statusBadge}
+          <span style="color:var(--text-muted);font-size:18px;">⌄</span>
+        </div>
+      </div>
+      <div class="student-body" id="sc-${s._i}">
+        ${halaqaRows||'<div style="font-size:13px;color:var(--text-muted);">لا توجد حلقات مسجلة</div>'}
+        <div class="student-actions">
+          <button class="btn sm" onclick="openStudentModal(${s._i})">✏ تعديل</button>
+          ${pauseBtn}
+          <button class="btn sm danger" onclick="deleteStudent(${s._i})">🗑 حذف</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function togglePaused(idx) {
+  students[idx].paused = !students[idx].paused;
+  saveData(); renderStudents();
+}
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+function toggleHalaqaPaid(studentIdx, hid) {
+  const sh = (students[studentIdx].halaqat||[]).find(sh => sh.hid===hid);
+  if (sh) { sh.paid = !sh.paid; saveData(); renderStudents(); }
+}
+
+function deleteStudent(idx) {
+  if (confirm('هل أنت متأكدة من حذف هذه الطالبة؟')) {
+    students.splice(idx,1); saveData(); renderStudents();
+  }
+}
+
+// STUDENT MODAL
+function openStudentModal(id=null) {
+  editStudentId = id;
+  document.getElementById('student-modal-title').textContent = id!==null ? 'تعديل بيانات الطالبة' : 'إضافة طالبة جديدة';
+  const s = id!==null ? students[id] : null;
+  document.getElementById('f-name').value = s ? s.name : '';
+  document.getElementById('f-phone').value = s ? (s.phone||'') : '';
+  document.getElementById('f-note').value = s ? (s.note||'') : '';
+
+  const cl = document.getElementById('halaqa-checklist');
+  if (!halaqat.length) {
+    cl.innerHTML = '<div style="color:var(--text-muted);font-size:13px;padding:8px;">أضيفي حلقات أولاً من تبويب "الحلقات"</div>';
+  } else {
+    const enrolled = s ? (s.halaqat||[]).map(sh=>sh.hid) : [];
+    cl.innerHTML = halaqat.map(h => `
+      <label class="halaqa-check-item">
+        <input type="checkbox" value="${h.id}" ${enrolled.includes(h.id)?'checked':''}/>
+        <span class="halaqa-check-label">${esc(h.name)}</span>
+        <span class="halaqa-check-price">${h.amount} د</span>
+      </label>`).join('');
+  }
+  openOverlay('student-overlay');
+  document.getElementById('f-name').focus();
+}
+
+function saveStudent() {
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const note = document.getElementById('f-note').value.trim();
+  if (!name) { alert('يرجى إدخال اسم الطالبة'); return; }
+  const checked = [...document.querySelectorAll('#halaqa-checklist input[type=checkbox]:checked')].map(c=>c.value);
+  if (editStudentId!==null) {
+    const existing = students[editStudentId].halaqat||[];
+    students[editStudentId] = {...students[editStudentId], name, phone, note,
+      halaqat: checked.map(hid => existing.find(sh=>sh.hid===hid) || {hid, paid:false})
+    };
+  } else {
+    students.push({id:uid(), name, phone, note, halaqat: checked.map(hid=>({hid,paid:false}))});
+  }
+  saveData(); closeOverlay('student-overlay'); renderStudents();
+}
+
+// HALAQAT
+function renderHalaqat() {
+  const tbody = document.getElementById('halaqat-tbody');
+  if (!halaqat.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty">لا توجد حلقات — أضيفي أول حلقة</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = halaqat.map((h,i) => {
+    const count = students.filter(s=>(s.halaqat||[]).some(sh=>sh.hid===h.id)).length;
+    return `<tr>
+      <td style="color:var(--text-muted);font-size:12px;">${i+1}</td>
+      <td style="font-weight:600;">${esc(h.name)}</td>
+      <td style="color:var(--text-muted);">${esc(h.teacher||'—')}</td>
+      <td>${h.amount} دينار</td>
+      <td>${count} طالبة</td>
+      <td><div style="display:flex;gap:6px;">
+        <button class="btn sm" onclick="openHalaqaModal(${i})">✏ تعديل</button>
+        <button class="btn sm" style="color:var(--amber);" onclick="archiveHalaqa(${i})">📦 أرشفة</button>
+        <button class="btn sm danger" onclick="deleteHalaqa(${i})">🗑 حذف</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function openHalaqaModal(id=null) {
+  editHalaqaId = id;
+  document.getElementById('halaqa-modal-title').textContent = id!==null ? 'تعديل الحلقة' : 'إضافة حلقة جديدة';
+  const h = id!==null ? halaqat[id] : null;
+  document.getElementById('h-name').value = h ? h.name : '';
+  document.getElementById('h-teacher').value = h ? (h.teacher||'') : '';
+  document.getElementById('h-amount').value = h ? h.amount : '';
+  openOverlay('halaqa-overlay');
+  document.getElementById('h-name').focus();
+}
+
+function saveHalaqa() {
+  const name = document.getElementById('h-name').value.trim();
+  const teacher = document.getElementById('h-teacher').value.trim();
+  const amount = parseFloat(document.getElementById('h-amount').value)||0;
+  if (!name) { alert('يرجى إدخال اسم الحلقة'); return; }
+  if (editHalaqaId!==null) {
+    halaqat[editHalaqaId] = {...halaqat[editHalaqaId], name, teacher, amount};
+  } else {
+    halaqat.push({id:uid(), name, teacher, amount});
+  }
+  saveData(); closeOverlay('halaqa-overlay'); renderHalaqat();
+}
+
+function deleteHalaqa(idx) {
+  const h = halaqat[idx];
+  const used = students.filter(s=>(s.halaqat||[]).some(sh=>sh.hid===h.id)).length;
+  if (used>0) { alert(`لا يمكن الحذف — ${used} طالبة مسجلة في هذه الحلقة.`); return; }
+  if (confirm('هل أنت متأكدة من حذف هذه الحلقة؟')) {
+    halaqat.splice(idx,1); saveData(); renderHalaqat();
+  }
+}
+
+// WHATSAPP
+function waMsg(name, halaqaName) {
+  return encodeURIComponent(
+    'السلام عليكم ورحمة الله وبركاته\n' +
+    'نذكّركم بسداد رسوم التسجيل' + (halaqaName?' ('+halaqaName+')':'') + ' في مركز شيخان وشريفة الفارسي للنساء، شاكرين لكم تعاونكم 🌸\n' +
+    'جزاكم الله خيراً وبارك فيكم.'
+  );
+}
+
+function openBulkModal() {
+  const seen = new Set();
+  const unpaid = [];
+  students.forEach(s => {
+    const hasUnpaid = (s.halaqat||[]).some(sh=>!sh.paid);
+    if (hasUnpaid && !seen.has(s.phone)) { seen.add(s.phone); unpaid.push(s); }
+  });
+  if (!unpaid.length) { alert('🎉 جميع الطالبات مكتملات الدفع!'); return; }
+  unpaid.sort((a,b)=>a.name.localeCompare(b.name,'ar'));
+  const msg = 'السلام عليكم ورحمة الله وبركاته\nنذكّركم بسداد رسوم التسجيل في مركز شيخان وشريفة الفارسي للنساء، شاكرين لكم تعاونكم 🌸\nجزاكم الله خيراً وبارك فيكم.';
+  document.getElementById('bulk-list').innerHTML = unpaid.map(s => {
+    const phone = formatPhone(s.phone);
+    const msgEnc = encodeURIComponent(msg);
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--gray-bg);border-radius:var(--radius);gap:8px;">
+      <span style="font-size:14px;font-weight:500;">${esc(s.name)}</span>
+      <a href="https://wa.me/${phone}?text=${msgEnc}" target="_blank" class="btn wa sm" style="text-decoration:none;">📲 إرسال</a>
+    </div>`;
+  }).join('');
+  openOverlay('bulk-overlay');
+}
+
+// EXPORT / IMPORT
+function exportData() {
+  const data = {halaqat, archivedHalaqat, students, dourat, semester, exportedAt: new Date().toISOString(), version:3};
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toLocaleDateString('ar-BH').replace(/\//g,'-');
+  a.href = url;
+  a.download = 'بيانات_مركز_شيخان_' + date + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.students || !data.halaqat) throw new Error();
+      pendingImport = data;
+      document.getElementById('import-confirm-btn').onclick = function() {
+        halaqat = pendingImport.halaqat;
+        students = pendingImport.students;
+        archivedHalaqat = pendingImport.archivedHalaqat || [];
+        dourat = pendingImport.dourat || [];
+        semester = pendingImport.semester || 'الفصل الأول';
+        saveData();
+        closeOverlay('import-overlay');
+        renderStudents();
+        alert('✅ تم استيراد البيانات بنجاح!');
+      };
+      openOverlay('import-overlay');
+    } catch(err) {
+      alert('❌ الملف غير صحيح. يرجى استخدام ملف JSON محفوظ من التطبيق.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') ['student-overlay','halaqa-overlay','bulk-overlay','import-overlay','doura-overlay','doura-student-overlay','renewal-overlay'].forEach(closeOverlay);
+});
+
+updateSemesterLabel();
+renderStudents();
+</script>
+</body>
+</html>
